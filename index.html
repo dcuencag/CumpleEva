@@ -342,13 +342,24 @@ const IMAGES = {
     const cap = document.createElement('p');
     cap.className = 'caption'; cap.textContent = CAPTIONS[i] || '';
     card.appendChild(img); card.appendChild(cap);
-    card.addEventListener('click', () => { lbImg.src = src; lb.classList.add('open'); });
+    card.addEventListener('click', () => { lbImg.src = src; openLightbox(); });
     grid.appendChild(card);
   });
 
-  document.getElementById('lightbox-close').addEventListener('click', () => lb.classList.remove('open'));
-  lb.addEventListener('click', e => { if (e.target === lb) lb.classList.remove('open'); });
-  document.addEventListener('keydown', e => { if (e.key === 'Escape') lb.classList.remove('open'); });
+  let autoClose;
+  function openLightbox() {
+    lb.classList.add('open');
+    clearTimeout(autoClose);
+    autoClose = setTimeout(closeLightbox, 5000);
+  }
+  function closeLightbox() {
+    lb.classList.remove('open');
+    clearTimeout(autoClose);
+  }
+
+  document.getElementById('lightbox-close').addEventListener('click', closeLightbox);
+  lb.addEventListener('click', e => { if (e.target === lb) closeLightbox(); });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbox(); });
 })();
 </script>
 </body>
