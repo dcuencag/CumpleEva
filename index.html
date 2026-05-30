@@ -170,14 +170,7 @@
       object-fit: cover;
       pointer-events: none;
     }
-    .photo-card .caption {
-      font-family: 'Comic Sans MS', cursive;
-      font-size: clamp(.62rem, 2.2vw, .76rem);
-      color: #2a1a0a;
-      text-align: center;
-      margin-top: 7px;
-      line-height: 1.3;
-    }
+
 
     /* Lightbox */
     #lightbox {
@@ -303,14 +296,7 @@ const IMAGES = {
     'squirrel.jpeg',
     'Unknown.jpg'
   ];
-  const CAPTIONS = [
-    '🎂 feliz cumple Geri!',
-    '🧙 gnomies squad',
-    '🧗 escalando la vida',
-    '😂 memes de escalada',
-    '🐿️ ardilla energy',
-    '✨ iconic'
-  ];
+
 
   const grid = document.getElementById('photo-grid');
   const lb   = document.getElementById('lightbox');
@@ -344,9 +330,7 @@ const IMAGES = {
     card.style.cssText = `--tx:${tx}px;--ty:${ty}px;--rot:${rot}deg;--card-w:${cardW}px;--delay:${i * 2.5}s;left:0;top:0;z-index:${zi};`;
     const img = document.createElement('img');
     img.src = src; img.alt = name;
-    const cap = document.createElement('p');
-    cap.className = 'caption'; cap.textContent = CAPTIONS[i] || '';
-    card.appendChild(img); card.appendChild(cap);
+    card.appendChild(img);
     card.addEventListener('click', () => { lbImg.src = src; openLightbox(); });
     grid.appendChild(card);
   });
