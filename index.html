@@ -11,19 +11,16 @@
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
     :root {
-      --bg:         #0d0a10;
       --cream:      #f0e8de;
       --champagne:  #ddc89a;
-      --rose:       #b84c6e;
       --gold:       #c9a04a;
-      --mauve:      #7a3f5e;
       --card-bg:    #f9f4ee;
     }
 
     html { scroll-behavior: smooth; }
 
     body {
-      background: var(--bg);
+      background: radial-gradient(ellipse 100% 70% at 50% 25%, #160e1c 0%, #080510 100%);
       color: var(--cream);
       font-family: 'Cormorant Garamond', Georgia, serif;
       overflow: hidden;
@@ -31,6 +28,17 @@
       display: flex;
       flex-direction: column;
       -webkit-tap-highlight-color: transparent;
+    }
+
+    /* Grain */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.88' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+      opacity: 0.035;
+      pointer-events: none;
+      z-index: 0;
     }
 
     /* Vignette */
@@ -94,7 +102,7 @@
       font-style: italic;
       font-weight: 300;
       font-size: clamp(0.95rem, 3.8vw, 1.9rem);
-      letter-spacing: 0.18em;
+      letter-spacing: 0.06em;
       color: var(--champagne);
       line-height: 1;
       opacity: 0;
@@ -104,7 +112,7 @@
     /* EVA */
     .hero-name {
       font-style: italic;
-      font-weight: 600;
+      font-weight: 300;
       font-size: clamp(5.5rem, 24vw, 12rem);
       letter-spacing: 0.04em;
       line-height: 0.84;
@@ -113,7 +121,7 @@
         var(--cream)     0%,
         var(--cream)     30%,
         var(--champagne) 42%,
-        #eedfa0          50%,
+        #fff5b0          50%,
         var(--champagne) 58%,
         var(--cream)     70%,
         var(--cream)     100%
@@ -185,27 +193,35 @@
       z-index: 50 !important;
     }
 
+    .photo-card:active {
+      transform: translate(var(--tx), var(--ty)) rotate(calc(var(--rot) * 0.2)) scale(1.05);
+      z-index: 50 !important;
+    }
+
     .photo-card img {
       display: block;
       width: 100%;
-      aspect-ratio: 1 / 1;
+      aspect-ratio: 4 / 3;
       object-fit: cover;
       pointer-events: none;
     }
 
     /* ── LIGHTBOX ── */
     #lightbox {
-      display: none;
+      display: flex;
       position: fixed;
       inset: 0;
-      background: rgba(8, 5, 12, 0.96);
+      background: rgba(8, 5, 12, 0.82);
       z-index: 1000;
       align-items: center;
       justify-content: center;
       padding: 16px;
-      backdrop-filter: blur(6px);
+      backdrop-filter: blur(8px);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.22s ease;
     }
-    #lightbox.open { display: flex; }
+    #lightbox.open { opacity: 1; pointer-events: auto; }
     #lightbox img {
       max-width: 100%;
       max-height: 90svh;
@@ -329,7 +345,7 @@
     const ty = (tp / 100) * H;
     const card = document.createElement('div');
     card.className = 'photo-card';
-    card.style.cssText = `--tx:${tx}px;--ty:${ty}px;--rot:${rot}deg;--card-w:${cardW}px;--delay:${i * 2.5}s;left:0;top:0;z-index:${zi};`;
+    card.style.cssText = `--tx:${tx}px;--ty:${ty}px;--rot:${rot}deg;--card-w:${cardW}px;--delay:${i * 0.3}s;left:0;top:0;z-index:${zi};`;
     const img = document.createElement('img');
     img.src = src; img.alt = name;
     card.appendChild(img);
